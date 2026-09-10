@@ -78,7 +78,9 @@ pip install mkdocs-material
 mkdocs serve
 ```
 
-Enable **Settings → Pages → GitHub Actions** after you push.
+Enable **Settings → Pages → Source: GitHub Actions**. If the public URL looks like this README (repo file table, clone commands), Pages is still set to "Deploy from a branch" and is serving `README.md`. Switch it to GitHub Actions, then **Actions → GitHub Pages → Run workflow**.
+
+After a successful deploy you should see a Material docs site: nav on the left, "Measured on Linux 7.0", Run the lab / Read the result buttons. That is the teaching site. This README stays the GitHub repo home.
 
 ## Kubernetes lab (single node)
 

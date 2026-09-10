@@ -2,7 +2,13 @@
 
 ## Do I need a custom domain?
 
-No. Host the teaching site on **GitHub Pages**. That is the dedicated website: `https://vi-shub.github.io/KubeSCX/`. A custom domain is optional later. For a fellowship proposal, Pages plus the repo is enough.
+No. Host the teaching site on **GitHub Pages**. That is the dedicated website: `https://vi-shub.github.io/KubeSCX/`.
+
+In the repo: **Settings → Pages → Source: GitHub Actions** (not "Deploy from a branch"). Then run the **GitHub Pages** workflow once.
+
+If the URL shows the README (file table, clone commands), Pages is publishing the repo root. That is the wrong source. After Actions deploy you should see a docs theme with a left nav and a green "Measured on Linux 7.0" box.
+
+A custom domain is optional later. It does not make the fellowship application stronger.
 
 ## Can I run this on WSL or Docker?
 
