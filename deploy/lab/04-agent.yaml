@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kubescx-agent
+  namespace: kubescx-lab
+spec:
+  selector:
+    matchLabels:
+      app: kubescx-agent
+  template:
+    metadata:
+      labels:
+        app: kubescx-agent
+    spec:
+      serviceAccountName: kubescx-agent
+      hostPID: true
+      containers:
+        - name: agent
+          image: alpine:3.20
+          command:
+            - /opt/kubescx/kubescx-agent
+            - --in-cluster
+            - --node-name=$(NODE_NAME)
+            - --cgroup-root=/sys/fs/cgroup
+            - --pin=/sys/fs/bpf/kubescx
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: kubescx
+              mountPath: /opt/kubescx
+              readOnly: true
+            - name: bpf
+              mountPath: /sys/fs/bpf
+            - name: cgroup
+              mountPath: /sys/fs/cgroup
+              readOnly: true
+      volumes:
+        - name: kubescx
+          hostPath:
+            path: /opt/kubescx
+            type: Directory
+        - name: bpf
+          hostPath:
+            path: /sys/fs/bpf
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup

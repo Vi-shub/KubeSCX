@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-api
+  namespace: kubescx-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-api
+  template:
+    metadata:
+      labels:
+        app: payment-api
+        scheduling.ebpf.io/class: latency
+    spec:
+      containers:
+        - name: latency-server
+          image: alpine:3.20
+          command: ["/opt/kubescx/latency-server", "-addr", ":8080", "-work-us", "800"]
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: kubescx
+              mountPath: /opt/kubescx
+              readOnly: true
+          resources:
+            requests:
+              cpu: 250m
+              memory: 64Mi
+      volumes:
+        - name: kubescx
+          hostPath:
+            path: /opt/kubescx
+            type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-api
+  namespace: kubescx-lab
+spec:
+  selector:
+    app: payment-api
+  ports:
+    - port: 8080
+      targetPort: 8080

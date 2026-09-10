@@ -1,0 +1,32 @@
+# Loadgen as a one-shot Job against payment-api.
+# Run after scx_kube is loaded on the node: kubectl apply -f 05-loadgen.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: loadgen
+  namespace: kubescx-lab
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: loadgen
+          image: alpine:3.20
+          command:
+            - /opt/kubescx/loadgen
+            - -url
+            - http://payment-api.kubescx-lab.svc:8080/work
+            - -c
+            - "8"
+            - -d
+            - 20s
+          volumeMounts:
+            - name: kubescx
+              mountPath: /opt/kubescx
+              readOnly: true
+      volumes:
+        - name: kubescx
+          hostPath:
+            path: /opt/kubescx
+            type: Directory

@@ -1,0 +1,16 @@
+/bin/
+/out/
+/scheduler/vmlinux.h
+/scheduler/scx_kube.bpf.o
+/scheduler/scx_kube.skel.h
+/scheduler/scx_kube
+*.o
+*.skel.h
+.vscode/
+.idea/
+*.exe
+*.test
+*.out
+.env
+go.work
+go.work.sum
