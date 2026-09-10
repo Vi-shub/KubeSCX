@@ -19,7 +19,8 @@ SCX_BIN := $(BINDIR)/scx_kube
 CLANG_BPF_SYS_INCLUDES := $(shell $(CLANG) -v -E - </dev/null 2>&1 | \
 	sed -n '/search starts here:/,/End of search list/ { s|^ \(.*\)|-idirafter \1|p }')
 
-BPF_CFLAGS := -g -O2 -Wall -Werror -target bpf -D__TARGET_ARCH_$(ARCH) \
+BPF_CFLAGS := -g -O2 -Wall -Werror -Wno-missing-declarations \
+	-target bpf -D__TARGET_ARCH_$(ARCH) \
 	-I$(ROOT)/include -I$(ROOT)/scheduler -I$(ROOT)/scheduler/include \
 	$(CLANG_BPF_SYS_INCLUDES)
 
@@ -67,10 +68,12 @@ scheduler: $(SKEL)
 	@echo "built $(SCX_BIN)"
 
 check:
-	@$(ROOT)/hack/check-env.sh
+	@sed -i 's/\r$$//' "$(ROOT)/hack/check-env.sh" 2>/dev/null || true
+	@bash "$(ROOT)/hack/check-env.sh"
 
 lab-local: go
-	@$(ROOT)/hack/lab-local.sh
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh 2>/dev/null || true
+	@bash "$(ROOT)/hack/lab-local.sh"
 
 lab: lab-local
 

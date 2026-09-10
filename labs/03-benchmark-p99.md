@@ -3,7 +3,8 @@
 This is the flagship experiment. Same load, two schedulers.
 
 ```bash
-make lab-local
+sed -i 's/\r$//' hack/*.sh   # if scripts were copied from Windows
+bash hack/lab-local.sh
 ```
 
 The script:
@@ -13,29 +14,49 @@ The script:
 3. Loads `scx_kube`, classifies the two PIDs, measures again.
 4. Prints a table.
 
-Example shape (numbers will differ; these are not claims):
+## Recorded result (Linux 7.0.0-30-generic)
+
+Same-node lab, 15s, 8 clients, 800µs CPU work per request, `cpu-burn` workers=`nproc`.
 
 ```
-scheduler         p50_ms   p95_ms   p99_ms  p99.9_ms      rps
-default            12.40    40.10   180.00    240.00    620.0
-scx_kube            8.10    18.40    90.00    140.00    590.0
-p99 change vs default: +50.0%  (positive means scx_kube is better)
+scheduler          p50_ms   p95_ms   p99_ms  p99.9_ms      rps
+default              4.08    15.08    22.44     34.83   1409.2
+scx_kube             3.02     5.92     7.27     10.50   2387.5
+p99 change vs default: +67.6%
 ```
 
-## How to read it
+Counters at the end of the winning run:
 
-- **p99 down, rps only slightly down** — the policy did what we hoped: steal CPU from the burner for the latency process.
-- **p99 unchanged** — classification missed, the node was not actually contended, or EEVDF was already good enough. Check `scx_kube` counters.
-- **p99 up** — also useful. File it as a negative result; do not hide it.
+```
+enq lat=11376 def=15456 bg=142  disp lat=11376 def=15455 bg=139  idle=38 kick=528
+```
+
+Enqueue ≈ dispatch (no lost tasks). `kick` is tick-driven yields, not a preempt storm.
+
+This is one workload on one kernel, not a claim that scx_kube wins everywhere.
+
+## Failed runs we kept
+
+1. **Idle LOCAL path for background** — burners skipped the background queue. p99 ~23ms → ~699ms.
+2. **SCX_KICK_PREEMPT on every latency enqueue** — Go threads re-enqueued constantly; ~6.4M kicks / 15s. p95 improved, p99 ~423ms.
+
+Both are the kind of negative result the project is supposed to document.
+
+## How to read a new run
+
+- **p99 down, rps up or only slightly down** — latency class stole CPU from the burner without stalling the client.
+- **p99 unchanged** — classification missed, or the node was not contended. Check counters.
+- **p99 up with kick ≈ enq lat** — preempt storm; do not kick on every enqueue.
+- **p99 up with disp lat << enq lat** — dispatch is not consuming the latency DSQ.
 
 ## Variables worth changing
 
 ```bash
-DUR=30s CONC=16 make lab-local
+DUR=30s CONC=16 bash hack/lab-local.sh
 ```
 
-Edit `cmd/latency-server` work time (`-work-us`) to make each request more or less CPU-heavy.
+Repeat the winning config three times before treating the table as stable. Edit `cmd/latency-server` `-work-us` to change how CPU-heavy each request is.
 
 ## Kubernetes variant
 
-After `sudo make install` and `kubectl apply -f deploy/lab`, run the loadgen Job in `deploy/lab/05-loadgen.yaml` once with `scx_kube` unloaded and once loaded. Compare Job logs the same way. Keep CPU **limits** off the lab pods so CFS quota does not hide scheduler effects.
+After `sudo make install` and `kubectl apply -f deploy/lab`, run the loadgen Job in `deploy/lab/05-loadgen.yaml` once with `scx_kube` unloaded and once loaded. Keep CPU **limits** off the lab pods so CFS quota does not hide scheduler effects.

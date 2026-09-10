@@ -34,7 +34,7 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *fmt, va_li
 	return vfprintf(stderr, fmt, args);
 }
 
-static void read_stats(struct scx_kube *skel, unsigned long long *out)
+static void read_stats(struct scx_kube_bpf *skel, unsigned long long *out)
 {
 	int ncpu = libbpf_num_possible_cpus();
 	unsigned int idx;
@@ -74,7 +74,7 @@ static int pin_one(struct bpf_map *map, const char *dir, const char *name)
 	return 0;
 }
 
-static int pin_maps(struct scx_kube *skel, const char *dir)
+static int pin_maps(struct scx_kube_bpf *skel, const char *dir)
 {
 	if (mkdir(dir, 0700) && errno != EEXIST) {
 		fprintf(stderr, "mkdir %s: %s\n", dir, strerror(errno));
@@ -95,7 +95,7 @@ static int pin_maps(struct scx_kube *skel, const char *dir)
 int main(int argc, char **argv)
 {
 	const char *pin_dir = KUBESCX_PIN_DIR;
-	struct scx_kube *skel = NULL;
+	struct scx_kube_bpf *skel = NULL;
 	struct bpf_link *link = NULL;
 	int err = 0;
 	int i;
@@ -123,13 +123,13 @@ int main(int argc, char **argv)
 	signal(SIGINT, on_signal);
 	signal(SIGTERM, on_signal);
 
-	skel = scx_kube__open();
+	skel = scx_kube_bpf__open();
 	if (!skel) {
 		fprintf(stderr, "failed to open BPF skeleton\n");
 		return 1;
 	}
 
-	err = scx_kube__load(skel);
+	err = scx_kube_bpf__load(skel);
 	if (err) {
 		fprintf(stderr,
 			"failed to load scx_kube (%d). Need Linux 6.13+ with CONFIG_SCHED_CLASS_EXT.\n"
@@ -179,6 +179,6 @@ out:
 		snprintf(path, sizeof(path), "%s/%s", pin_dir, KUBESCX_MAP_STATS);
 		unlink(path);
 	}
-	scx_kube__destroy(skel);
+	scx_kube_bpf__destroy(skel);
 	return err ? 1 : 0;
 }

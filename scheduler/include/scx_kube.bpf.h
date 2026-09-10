@@ -12,7 +12,11 @@
 
 #define BPF_NO_KFUNC_PROTOTYPES
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-declarations"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
 #include "vmlinux.h"
+#pragma clang diagnostic pop
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
@@ -35,6 +39,9 @@
 #ifndef SCX_OPS_KEEP_BUILTIN_IDLE
 #define SCX_OPS_KEEP_BUILTIN_IDLE (1ULL << 0)
 #endif
+#ifndef SCX_OPS_ENQ_LAST
+#define SCX_OPS_ENQ_LAST (1ULL << 1)
+#endif
 
 #define BPF_STRUCT_OPS(name, args...) \
 	SEC("struct_ops/" #name)      \
@@ -51,7 +58,17 @@ s32 scx_bpf_select_cpu_dfl(struct task_struct *p, s32 prev_cpu, u64 wake_flags,
 
 void scx_bpf_kick_cpu(s32 cpu, u64 flags) __ksym;
 s32 scx_bpf_task_cpu(const struct task_struct *p) __ksym;
+s32 scx_bpf_dsq_nr_queued(u64 dsq_id) __ksym __weak;
 
+/* Current names (Linux 6.19+ / 7.x) */
+bool scx_bpf_dsq_move_to_local(u64 dsq_id, u64 enq_flags) __ksym __weak;
+bool scx_bpf_dsq_insert(struct task_struct *p, u64 dsq_id, u64 slice,
+			u64 enq_flags) __ksym __weak;
+bool __scx_bpf_dsq_insert_vtime(struct task_struct *p,
+				struct scx_bpf_dsq_insert_vtime_args *args) __ksym __weak;
+bool scx_bpf_task_set_dsq_vtime(struct task_struct *p, u64 vtime) __ksym __weak;
+
+/* Older compat names */
 bool scx_bpf_dsq_move_to_local___v2___compat(u64 dsq_id, u64 enq_flags) __ksym __weak;
 bool scx_bpf_dsq_move_to_local___v1(u64 dsq_id) __ksym __weak;
 bool scx_bpf_consume___old(u64 dsq_id) __ksym __weak;
@@ -77,6 +94,8 @@ static __always_inline bool time_before64(u64 a, u64 b)
 
 static __always_inline bool kube_dsq_move_to_local(u64 dsq_id)
 {
+	if (bpf_ksym_exists(scx_bpf_dsq_move_to_local))
+		return scx_bpf_dsq_move_to_local(dsq_id, 0);
 	if (bpf_ksym_exists(scx_bpf_dsq_move_to_local___v2___compat))
 		return scx_bpf_dsq_move_to_local___v2___compat(dsq_id, 0);
 	if (bpf_ksym_exists(scx_bpf_dsq_move_to_local___v1))
@@ -89,6 +108,8 @@ static __always_inline bool kube_dsq_move_to_local(u64 dsq_id)
 static __always_inline bool kube_dsq_insert(struct task_struct *p, u64 dsq_id,
 					    u64 slice, u64 enq_flags)
 {
+	if (bpf_ksym_exists(scx_bpf_dsq_insert))
+		return scx_bpf_dsq_insert(p, dsq_id, slice, enq_flags);
 	if (bpf_ksym_exists(scx_bpf_dsq_insert___v2___compat))
 		return scx_bpf_dsq_insert___v2___compat(p, dsq_id, slice, enq_flags);
 	if (bpf_ksym_exists(scx_bpf_dsq_insert___v1)) {
@@ -105,6 +126,16 @@ static __always_inline bool kube_dsq_insert(struct task_struct *p, u64 dsq_id,
 static __always_inline bool kube_dsq_insert_vtime(struct task_struct *p, u64 dsq_id,
 						  u64 slice, u64 vtime, u64 enq_flags)
 {
+	if (bpf_ksym_exists(__scx_bpf_dsq_insert_vtime)) {
+		struct scx_bpf_dsq_insert_vtime_args args = {
+			.dsq_id = dsq_id,
+			.slice = slice,
+			.vtime = vtime,
+			.enq_flags = enq_flags,
+		};
+
+		return __scx_bpf_dsq_insert_vtime(p, &args);
+	}
 	if (bpf_ksym_exists(scx_bpf_dsq_insert_vtime___compat)) {
 		scx_bpf_dsq_insert_vtime___compat(p, dsq_id, slice, vtime, enq_flags);
 		return true;
@@ -118,7 +149,9 @@ static __always_inline bool kube_dsq_insert_vtime(struct task_struct *p, u64 dsq
 
 static __always_inline void kube_task_set_dsq_vtime(struct task_struct *p, u64 vtime)
 {
-	if (bpf_ksym_exists(scx_bpf_task_set_dsq_vtime___new))
+	if (bpf_ksym_exists(scx_bpf_task_set_dsq_vtime))
+		scx_bpf_task_set_dsq_vtime(p, vtime);
+	else if (bpf_ksym_exists(scx_bpf_task_set_dsq_vtime___new))
 		scx_bpf_task_set_dsq_vtime___new(p, vtime);
 	else
 		p->scx.dsq_vtime = vtime;

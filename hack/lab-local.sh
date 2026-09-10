@@ -72,6 +72,10 @@ echo "==> scx_kube: latency-preferred under contention"
   | tee "${workdir}/scx.json"
 
 echo
+echo "==> scx_kube counters (last lines)"
+tail -n 5 "${workdir}/scx.log" || true
+
+echo
 echo "==> compare"
 if command -v python3 >/dev/null 2>&1; then
   python3 - "${workdir}/baseline.json" "${workdir}/scx.json" <<'PY'
