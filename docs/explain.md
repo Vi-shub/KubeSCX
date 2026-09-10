@@ -1,6 +1,6 @@
 # Explain KubeSCX
 
-Use this when someone asks what you are building. Start with Kubernetes, not eBPF.
+Start with Kubernetes, not eBPF.
 
 ## One minute
 
@@ -38,7 +38,7 @@ Say this sentence whole:
 
 > On Linux 7.0, in a mixed latency-vs-burner lab, scx_kube cut p99 from 22 ms to 7 ms and raised throughput. Two earlier policies made p99 much worse. This is one workload, not "Kubernetes is 68% faster."
 
-If you drop the middle sentences, you are advocating badly.
+If you drop the middle sentences, the claim is wrong.
 
 ## What this is not
 

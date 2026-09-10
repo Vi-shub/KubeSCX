@@ -1,6 +1,6 @@
 # Fellowship proposal notes
 
-Copy from this page into the Community and Advocacy application. Keep the tone modest. You already have a working lab and a recorded result.
+Copy from this file into the Community and Advocacy application. This page is not in the public site nav. Keep the tone modest. You already have a working lab and a recorded result.
 
 ## Problem
 
@@ -37,7 +37,7 @@ Keep the MVP small. One scheduler family, one primary objective (tail latency un
 
 ## Community deliverables
 
-- Keep the GitHub Pages site as the teaching home (no separate marketing site required)
+- Keep the public teaching site as the home for labs and writeups
 - Two public blog posts (fellowship requirement)
 - Hands-on labs a newcomer can finish on a VM
 - Office hours or equivalent async help

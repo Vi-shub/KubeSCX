@@ -1,0 +1,24 @@
+name: Scheduler or lab bug
+description: Build, load, or policy problem (not a p99 table)
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Command, expected result, actual result
+    validations:
+      required: true
+  - type: input
+    id: kernel
+    attributes:
+      label: Kernel
+      placeholder: "Linux 7.0.0-30-generic"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output
+      description: make check, scx_kube logs, or dmesg

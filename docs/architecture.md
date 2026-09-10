@@ -51,6 +51,6 @@ scx_kube is a `sched_ext` policy. kubescx-agent is userspace. The kernel program
 
 Classification stays in userspace on purpose. Wrong inode means the task stays default, never silent background.
 
-## What we do not do yet
+## Out of scope for this MVP
 
-CRDs, kubectl plugins, adaptive phase detection, energy, AI, upstreaming into `sched-ext/scx`. Those are later. The MVP is one policy, one harness, one teaching path.
+CRDs, kubectl plugins, adaptive phase detection, energy, AI, and upstreaming into `sched-ext/scx`. One policy, one harness, one teaching path.

@@ -2,19 +2,19 @@
 
 KubeSCX stays small until the lab is boringly reproducible.
 
-## Now (proposal week)
+## Done
 
 - Working `scx_kube` FIFO policy (no LOCAL bypass for background, no enqueue preempt storm)
-- Recorded Linux 7.0 p99 result (~68% on this harness)
-- Four lessons, blog post 1, GitHub Pages site
+- Recorded Linux 7.0 p99 result (~68% on this harness), including two published failures
+- Four lessons, first writeup, public teaching site
 - Agent: TGID and cgroup labels
 
-## Next (fellowship months 1 to 3 if funded; otherwise evenings)
+## Next
 
 - Repeat `lab-local` on 6.13 and 7.x, three runs each
 - Second workload (two latency processes, or mixed I/O)
 - k3s single-node: Pod label to cgroup map, same benchmark
-- Compare against `scx_simple` as a second baseline, not only EEVDF
+- Compare against `scx_simple` as a second baseline, not only default Linux
 
 ## Later (only if the lab still holds)
 

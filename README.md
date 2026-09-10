@@ -21,8 +21,7 @@ On Linux 7.0 this harness cut **p99 from 22.4 ms to 7.3 ms** (about 68%) and rai
 | `cmd/latency-server`, `cmd/cpu-burn`, `cmd/loadgen` | Mixed-workload benchmark |
 | `hack/lab-local.sh` | Contention lab, no Kubernetes required |
 | `deploy/lab/` | Optional single-node Kubernetes lab |
-| `docs/` | Teaching site (GitHub Pages) |
-| `docs/proposal.md` | Notes for a fellowship application |
+| `docs/` | Teaching site: [vi-shub.github.io/KubeSCX](https://vi-shub.github.io/KubeSCX/) |
 
 ## Requirements
 
@@ -58,29 +57,24 @@ batch-job     scheduling.ebpf.io/class=background    DSQ 2 (last)
 
 Maps: `--tgid 1201:latency` for the local lab, or Pod UID to cgroup inode on Kubernetes. Pins live at `/sys/fs/bpf/kubescx`.
 
-## Teaching site (GitHub Pages)
+## Docs
 
-Do not buy a separate domain for the proposal. The dedicated website is MkDocs on GitHub Pages: **https://vi-shub.github.io/KubeSCX/**
+Teaching site: **[https://vi-shub.github.io/KubeSCX/](https://vi-shub.github.io/KubeSCX/)**
 
 | Page | Purpose |
 |------|---------|
-| [Explain](docs/explain.md) | One-minute pitch and what not to claim |
-| [Architecture](docs/architecture.md) | Queues, agent, BPF ops |
-| [Results](docs/results.md) | Recorded table and failed policies |
-| [Teaching path](docs/teach/index.md) | Four lessons |
-| [Blog](docs/blog/first-p99-result.md) | First public writeup |
-| [Advocacy](docs/advocacy.md) | Talk outline, where to post |
-| [Proposal notes](docs/proposal.md) | Copy into the application tomorrow |
+| [Explain](https://vi-shub.github.io/KubeSCX/explain/) | One-minute pitch and what not to claim |
+| [Architecture](https://vi-shub.github.io/KubeSCX/architecture/) | Queues, agent, BPF ops |
+| [Results](https://vi-shub.github.io/KubeSCX/results/) | Recorded table and failed policies |
+| [Teaching path](https://vi-shub.github.io/KubeSCX/teach/) | Four lessons |
+| [Blog](https://vi-shub.github.io/KubeSCX/blog/first-p99-result/) | First public writeup |
+| [Community](https://vi-shub.github.io/KubeSCX/advocacy/) | Talk outline and how to report a result |
 | [CONTRIBUTING](CONTRIBUTING.md) / [ROADMAP](ROADMAP.md) | How others help |
 
 ```bash
 pip install mkdocs-material
 mkdocs serve
 ```
-
-Enable **Settings → Pages → Source: GitHub Actions**. If the public URL looks like this README (repo file table, clone commands), Pages is still set to "Deploy from a branch" and is serving `README.md`. Switch it to GitHub Actions, then **Actions → GitHub Pages → Run workflow**.
-
-After a successful deploy you should see a Material docs site: nav on the left, "Measured on Linux 7.0", Run the lab / Read the result buttons. That is the teaching site. This README stays the GitHub repo home.
 
 ## Kubernetes lab (single node)
 
