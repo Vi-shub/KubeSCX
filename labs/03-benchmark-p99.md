@@ -1,4 +1,4 @@
-# Lab 3 — Benchmark P99 under contention
+# Lab 3: Benchmark P99 under contention
 
 This is the flagship experiment. Same load, two schedulers.
 
@@ -37,17 +37,17 @@ This is one workload on one kernel, not a claim that scx_kube wins everywhere.
 
 ## Failed runs we kept
 
-1. **Idle LOCAL path for background** — burners skipped the background queue. p99 ~23ms → ~699ms.
-2. **SCX_KICK_PREEMPT on every latency enqueue** — Go threads re-enqueued constantly; ~6.4M kicks / 15s. p95 improved, p99 ~423ms.
+1. **Idle LOCAL path for background.** Burners skipped the background queue. p99 ~23ms to ~699ms.
+2. **SCX_KICK_PREEMPT on every latency enqueue.** Go threads re-enqueued constantly; ~6.4M kicks / 15s. p95 improved, p99 ~423ms.
 
 Both are the kind of negative result the project is supposed to document.
 
 ## How to read a new run
 
-- **p99 down, rps up or only slightly down** — latency class stole CPU from the burner without stalling the client.
-- **p99 unchanged** — classification missed, or the node was not contended. Check counters.
-- **p99 up with kick ≈ enq lat** — preempt storm; do not kick on every enqueue.
-- **p99 up with disp lat << enq lat** — dispatch is not consuming the latency DSQ.
+- **p99 down, rps up or only slightly down:** latency class stole CPU from the burner without stalling the client.
+- **p99 unchanged:** classification missed, or the node was not contended. Check counters.
+- **p99 up with kick ≈ enq lat:** preempt storm. Do not kick on every enqueue.
+- **p99 up with disp lat << enq lat:** dispatch is not consuming the latency DSQ.
 
 ## Variables worth changing
 

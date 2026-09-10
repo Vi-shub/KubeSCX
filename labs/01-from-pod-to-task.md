@@ -1,4 +1,4 @@
-# Lab 1 — From Pod to cgroup to Linux task
+# Lab 1: From Pod to cgroup to Linux task
 
 The Linux scheduler does not see Pods. It sees tasks (threads) and cgroups. This lab makes that mapping visible without loading a custom scheduler.
 

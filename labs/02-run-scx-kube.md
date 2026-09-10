@@ -1,4 +1,4 @@
-# Lab 2 — Load scx_kube
+# Lab 2: Load scx_kube
 
 `scx_kube` replaces the CPU scheduler for the whole machine while it is attached. Use a VM.
 

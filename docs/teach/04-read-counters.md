@@ -1,4 +1,4 @@
-# Lesson 4 — Read the counters
+# Lesson 4: Read the counters
 
 `scx_kube` prints a line every second:
 

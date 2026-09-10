@@ -4,32 +4,50 @@ site_url: https://vi-shub.github.io/KubeSCX/
 repo_url: https://github.com/Vi-shub/KubeSCX
 repo_name: Vi-shub/KubeSCX
 edit_uri: edit/main/docs/
+copyright: KubeSCX is experimental. Use a VM. GPL-2.0 scheduler, Apache-2.0 tools.
 
 theme:
   name: material
   palette:
-    - scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
       primary: indigo
       accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
   features:
     - navigation.sections
     - navigation.top
+    - navigation.footer
     - content.code.copy
     - content.action.edit
     - search.highlight
+    - toc.follow
 
 nav:
   - Home: index.md
-  - Explain the project: explain.md
-  - Teaching path:
-      - Overview: teach/index.md
+  - Explain: explain.md
+  - Architecture: architecture.md
+  - Results: results.md
+  - Teaching:
+      - Path: teach/index.md
       - 1. Pod to Linux task: teach/01-pod-to-task.md
       - 2. eBPF and sched_ext: teach/02-ebpf-sched-ext.md
       - 3. Run the lab: teach/03-run-the-lab.md
       - 4. Read the counters: teach/04-read-counters.md
   - Blog:
       - First P99 result: blog/first-p99-result.md
-  - Advocacy kit: advocacy.md
+  - FAQ: faq.md
+  - Advocacy: advocacy.md
+  - Fellowship notes: proposal.md
 
 markdown_extensions:
   - admonition
@@ -41,6 +59,7 @@ markdown_extensions:
   - toc:
       permalink: true
   - attr_list
+  - md_in_html
 
 plugins:
   - search

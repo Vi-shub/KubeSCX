@@ -24,7 +24,7 @@ BPF_CFLAGS := -g -O2 -Wall -Werror -Wno-missing-declarations \
 	-I$(ROOT)/include -I$(ROOT)/scheduler -I$(ROOT)/scheduler/include \
 	$(CLANG_BPF_SYS_INCLUDES)
 
-.PHONY: help all go scheduler lab lab-local bench check test clean install images
+.PHONY: help all go scheduler lab lab-local bench check test clean install images docs
 
 help:
 	@echo "KubeSCX"
@@ -32,6 +32,7 @@ help:
 	@echo "  make scheduler   build scx_kube (Linux 6.13+ with sched_ext)"
 	@echo "  make test        run unit tests"
 	@echo "  make lab-local   contention lab without Kubernetes"
+	@echo "  make docs        serve the teaching site (mkdocs)"
 	@echo "  make bench       run loadgen against :8080"
 	@echo "  make check       verify kernel sched_ext support"
 	@echo "  make install     copy binaries to $(PREFIX)"
@@ -85,6 +86,9 @@ install: go
 	cp -a $(BINDIR)/. $(PREFIX)/
 	@if [ -f $(SCX_BIN) ]; then cp $(SCX_BIN) $(PREFIX)/; fi
 	@echo "installed to $(PREFIX)"
+
+docs:
+	mkdocs serve
 
 clean:
 	rm -rf $(BINDIR) $(BPF_OBJ) $(SKEL) $(VMLINUX) $(SCX_BIN)

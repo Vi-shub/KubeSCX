@@ -1,0 +1,29 @@
+name: Lab result
+description: Paste a lab-local table (win or loss)
+title: "lab: "
+labels: ["lab"]
+body:
+  - type: textarea
+    id: table
+    attributes:
+      label: Table
+      description: Paste the compare block from hack/lab-local.sh
+    validations:
+      required: true
+  - type: input
+    id: kernel
+    attributes:
+      label: Kernel
+      placeholder: "Linux 7.0.0-30-generic"
+    validations:
+      required: true
+  - type: textarea
+    id: counters
+    attributes:
+      label: Counter line
+      description: Last enq/disp/kick line from scx_kube
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: What you changed, or why you think it lost

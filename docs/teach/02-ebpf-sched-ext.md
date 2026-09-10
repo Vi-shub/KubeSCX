@@ -1,4 +1,4 @@
-# Lesson 2 — Why eBPF and sched_ext
+# Lesson 2: Why eBPF and sched_ext
 
 People hear “eBPF” and think Cilium, Tetragon, or a flame graph. KubeSCX uses eBPF for a different job: **the scheduling decision itself**.
 
@@ -23,7 +23,7 @@ eBPF → sched_ext → scx_kube (three FIFO queues)
 
 ## Why not “just nice userspace priorities”
 
-`nice`, cgroup CPU shares, and CPU Manager isolation are real tools. They are also coarse. This project exists to ask whether **explicit workload class at dispatch time** beats the default scheduler under *mixed* load — and to make that question runnable by people who do not patch the kernel.
+`nice`, cgroup CPU shares, and CPU Manager isolation are real tools. They are also coarse. This project asks whether **explicit workload class at dispatch time** beats the default scheduler under mixed load, and it makes that question runnable by people who do not patch the kernel.
 
 ## Checkpoint
 

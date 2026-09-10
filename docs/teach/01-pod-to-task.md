@@ -1,4 +1,4 @@
-# Lesson 1 — From Pod to Linux task
+# Lesson 1: From Pod to Linux task
 
 The Linux CPU scheduler never sees a Pod. It sees **tasks** (threads) and **cgroups**. If you skip this, KubeSCX looks like magic labels.
 

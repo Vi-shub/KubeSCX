@@ -1,4 +1,4 @@
-# Lesson 3 — Run the lab
+# Lesson 3: Run the lab
 
 This is the whole course’s practical exam. You need a **Linux 6.12+ VM** with `CONFIG_SCHED_CLASS_EXT`. WSL2 5.15 will not work. Docker will not work. A cloud VM with kernel 7.x does.
 
