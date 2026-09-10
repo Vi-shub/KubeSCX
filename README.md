@@ -63,6 +63,28 @@ The agent does not guess. It writes maps:
 
 Pinned maps live at `/sys/fs/bpf/kubescx`.
 
+## Teaching and advocacy
+
+The Community & Advocacy half of this project is a small docs site, not a product landing page:
+
+| Page | Purpose |
+|------|---------|
+| [Explain KubeSCX](docs/explain.md) | One-minute pitch and what not to claim |
+| [Teaching path](docs/teach/index.md) | Four lessons: Pod → eBPF → lab → counters |
+| [First P99 result](docs/blog/first-p99-result.md) | Blog post from the real 68% table and two failures |
+| [Advocacy kit](docs/advocacy.md) | Where to post, talk outline, fellowship-shaped metrics |
+
+Preview locally:
+
+```bash
+pip install mkdocs-material
+mkdocs serve
+```
+
+GitHub Pages deploys from `mkdocs.yml` on push to `main` (enable Pages → GitHub Actions in repo settings). After that the public URL is `https://vi-shub.github.io/KubeSCX/`.
+
+## Kubernetes lab (single node)
+
 ## Kubernetes lab (single node)
 
 1. Linux node with `sched_ext`, k3s or kubelet installed.
