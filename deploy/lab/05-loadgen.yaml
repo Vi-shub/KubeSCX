@@ -21,6 +21,7 @@ spec:
             - "8"
             - -d
             - 20s
+            - -json
           volumeMounts:
             - name: kubescx
               mountPath: /opt/kubescx

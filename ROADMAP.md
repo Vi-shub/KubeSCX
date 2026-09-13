@@ -1,5 +1,7 @@
 # Roadmap
 
+The main plan (including the next VM test) is [PLAN.md](PLAN.md). This file is the short version.
+
 KubeSCX stays small until the lab is boringly reproducible.
 
 ## Done
@@ -12,7 +14,7 @@ KubeSCX stays small until the lab is boringly reproducible.
 ## Next
 
 - Repeat `lab-local` on 6.13 and 7.x, three runs each
-- Second workload (two latency processes, or mixed I/O)
+- Run `hack/lab-two-latency.sh` on the same node (two latency TGIDs, one burner)
 - k3s single-node: Pod label to cgroup map, same benchmark
 - Compare against `scx_simple` as a second baseline, not only default Linux
 

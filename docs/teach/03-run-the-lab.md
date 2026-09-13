@@ -25,7 +25,13 @@ make scheduler
 bash hack/lab-local.sh
 ```
 
-The script measures default Linux, loads `scx_kube`, classifies the latency server and the CPU burner, measures again, and prints p50/p95/p99 and rps.
+The script measures default Linux, loads `scx_kube`, classifies the latency server and the CPU burner, measures again, and prints p50/p95/p99 and rps. JSON and counters land in `out/lab-*` so they survive after the processes stop.
+
+Optional second experiment (two latency servers, one burner):
+
+```bash
+bash hack/lab-two-latency.sh
+```
 
 Safety: this attaches a system-wide scheduler. Use a throwaway VM. Ctrl-C unloads it.
 

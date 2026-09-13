@@ -27,3 +27,9 @@ func TestSystemdUID(t *testing.T) {
 		t.Fatalf("got %q", got)
 	}
 }
+
+func TestPathMatchesPodEmpty(t *testing.T) {
+	if pathMatchesPod("/sys/fs/cgroup/kubepods/pod123", "") {
+		t.Fatal("empty uid must not match")
+	}
+}

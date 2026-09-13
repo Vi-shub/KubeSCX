@@ -27,7 +27,7 @@ Enqueue matches dispatch. Kick is hundreds, not millions. Background still ran a
 | Background allowed on idle LOCAL | Burners skipped the background queue | ~23 ms → ~699 ms |
 | `SCX_KICK_PREEMPT` on every latency enqueue | ~6.4M kicks / 15s (Go thread storm) | p95 better, p99 ~423 ms |
 
-Full narrative: [First P99 result](blog/first-p99-result.md). How to read counters: [lesson 4](teach/04-read-counters.md).
+Full narrative: [First P99 result](blog/first-p99-result.md). How to read counters: [lesson 4](teach/04-read-counters.md). Second workload (two latency processes): [labs/04-two-latency.md](https://github.com/Vi-shub/KubeSCX/blob/main/labs/04-two-latency.md). No recorded table yet; run it on the same VM.
 
 ## Reproduce
 

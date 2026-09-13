@@ -14,6 +14,8 @@ type Pod struct {
 	NodeName  string
 	Class     classid.Info
 	Labeled   bool
+	// Label is the raw scheduling.ebpf.io/class value, if present.
+	Label string
 }
 
 type list struct {
@@ -45,6 +47,7 @@ func Parse(r io.Reader) ([]Pod, error) {
 		}
 		if item.Metadata.Labels != nil {
 			if s, ok := item.Metadata.Labels[classid.LabelClass]; ok {
+				p.Label = s
 				if info, ok := classid.Parse(s); ok {
 					p.Class = info
 					p.Labeled = true

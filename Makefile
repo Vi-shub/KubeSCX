@@ -24,7 +24,7 @@ BPF_CFLAGS := -g -O2 -Wall -Werror -Wno-missing-declarations \
 	-I$(ROOT)/include -I$(ROOT)/scheduler -I$(ROOT)/scheduler/include \
 	$(CLANG_BPF_SYS_INCLUDES)
 
-.PHONY: help all go scheduler lab lab-local bench check test clean install images docs
+.PHONY: help all go scheduler lab lab-local lab-two lab-soak lab-k8s bench check test clean install images docs
 
 help:
 	@echo "KubeSCX"
@@ -32,6 +32,9 @@ help:
 	@echo "  make scheduler   build scx_kube (Linux 6.13+ with sched_ext)"
 	@echo "  make test        run unit tests"
 	@echo "  make lab-local   contention lab without Kubernetes"
+	@echo "  make lab-two     two latency servers vs one burner"
+	@echo "  make lab-soak    repeat lab-local (RUNS=3 DUR=30s)"
+	@echo "  make lab-k8s     single-node k8s path (dedicated box)"
 	@echo "  make docs        serve the teaching site (mkdocs)"
 	@echo "  make bench       run loadgen against :8080"
 	@echo "  make check       verify kernel sched_ext support"
@@ -73,8 +76,20 @@ check:
 	@bash "$(ROOT)/hack/check-env.sh"
 
 lab-local: go
-	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh 2>/dev/null || true
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh "$(ROOT)/hack/"*.py 2>/dev/null || true
 	@bash "$(ROOT)/hack/lab-local.sh"
+
+lab-two: go
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh "$(ROOT)/hack/"*.py 2>/dev/null || true
+	@bash "$(ROOT)/hack/lab-two-latency.sh"
+
+lab-soak: go
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh "$(ROOT)/hack/"*.py 2>/dev/null || true
+	@bash "$(ROOT)/hack/lab-soak.sh"
+
+lab-k8s: go
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh "$(ROOT)/hack/"*.py 2>/dev/null || true
+	@bash "$(ROOT)/hack/lab-k8s.sh"
 
 lab: lab-local
 

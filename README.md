@@ -8,7 +8,7 @@ This is an MVP. It does not replace kube-scheduler, EEVDF, or `sched-ext/scx`.
 
 > Can a simple policy (latency queue, then default, then background) improve tail latency for a labeled workload when the node is busy?
 
-If the answer is no, that is still a result. Record it.
+If the answer is no, that is still a result. Record it. The working plan is [PLAN.md](PLAN.md).
 
 On Linux 7.0 this harness cut **p99 from 22.4 ms to 7.3 ms** (about 68%) and raised rps from 1409 to 2388. Two earlier policies made p99 worse. Details: [docs/results.md](docs/results.md).
 
@@ -41,6 +41,8 @@ make check
 make scheduler
 sed -i 's/\r$//' hack/*.sh
 bash hack/lab-local.sh
+# optional: two latency servers sharing the queue
+bash hack/lab-two-latency.sh
 ```
 
 Ubuntu packages: `hack/bootstrap-ubuntu.sh`.
@@ -63,6 +65,7 @@ Teaching site: **[https://vi-shub.github.io/KubeSCX/](https://vi-shub.github.io/
 
 | Page | Purpose |
 |------|---------|
+| [Plan](https://vi-shub.github.io/KubeSCX/plan/) | What is done, what to run next, what is out of scope |
 | [Explain](https://vi-shub.github.io/KubeSCX/explain/) | One-minute pitch and what not to claim |
 | [Architecture](https://vi-shub.github.io/KubeSCX/architecture/) | Queues, agent, BPF ops |
 | [Results](https://vi-shub.github.io/KubeSCX/results/) | Recorded table and failed policies |

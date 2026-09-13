@@ -181,23 +181,36 @@ func applyPodList(maps *bpfmap.Maps, pods []kubejson.Pod, cgroupRoot, nodeName s
 		if nodeName != "" && p.NodeName != "" && p.NodeName != nodeName {
 			continue
 		}
+		if p.Label != "" && !p.Labeled {
+			fmt.Fprintf(os.Stderr, "warning: pod %s/%s has %s=%q (unknown class, skipped)\n",
+				p.Namespace, p.Name, classid.LabelClass, p.Label)
+			continue
+		}
 		if !p.Labeled {
 			continue
 		}
-		ids, err := cgroup.InodesForPod(cgroupRoot, p.UID)
+		dirs, err := cgroup.FindPodDirs(cgroupRoot, p.UID)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "walk cgroups for %s/%s: %v\n", p.Namespace, p.Name, err)
 			continue
 		}
 		fmt.Printf("pod %s/%s uid=%s class=%s cgroups=%d\n",
-			p.Namespace, p.Name, p.UID, classid.Name(p.Class.Class), len(ids))
-		if dryRun || maps == nil {
-			for _, id := range ids {
-				fmt.Printf("  cgroup_id=%d\n", id)
-			}
+			p.Namespace, p.Name, p.UID, classid.Name(p.Class.Class), len(dirs))
+		if len(dirs) == 0 {
+			fmt.Fprintf(os.Stderr, "warning: no cgroup path under %s contained uid %s (task stays default)\n",
+				cgroupRoot, p.UID)
 			continue
 		}
-		for _, id := range ids {
+		for _, dir := range dirs {
+			id, err := cgroup.Inode(dir)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "stat %s: %v\n", dir, err)
+				continue
+			}
+			fmt.Printf("  %s id=%d\n", dir, id)
+			if dryRun || maps == nil {
+				continue
+			}
 			if err := maps.PutCgroup(id, p.Class); err != nil {
 				fmt.Fprintf(os.Stderr, "map put %d: %v\n", id, err)
 			}

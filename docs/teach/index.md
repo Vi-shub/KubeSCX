@@ -9,7 +9,7 @@ Four lessons. The goal is not "become a kernel developer." It is: a Kubernetes e
 | 3 | [Run the lab](03-run-the-lab.md) | Produce a baseline vs scx_kube table on a VM |
 | 4 | [Read the counters](04-read-counters.md) | Debug a worse p99 instead of shrugging |
 
-Hands-on files live in the repo under [`labs/`](https://github.com/Vi-shub/KubeSCX/tree/main/labs) and [`hack/lab-local.sh`](https://github.com/Vi-shub/KubeSCX/blob/main/hack/lab-local.sh).
+Hands-on files live in the repo under [`labs/`](https://github.com/Vi-shub/KubeSCX/tree/main/labs), [`hack/lab-local.sh`](https://github.com/Vi-shub/KubeSCX/blob/main/hack/lab-local.sh), and [`hack/lab-two-latency.sh`](https://github.com/Vi-shub/KubeSCX/blob/main/hack/lab-two-latency.sh).
 
 ## What we are not teaching yet
 

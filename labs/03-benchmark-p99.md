@@ -57,6 +57,10 @@ DUR=30s CONC=16 bash hack/lab-local.sh
 
 Repeat the winning config three times before treating the table as stable. Edit `cmd/latency-server` `-work-us` to change how CPU-heavy each request is.
 
+JSON, `uname`, and the last counter lines are written to `out/lab-*` so you can paste them into an issue after the script exits.
+
+Second workload (two latency processes sharing the queue): [04-two-latency.md](04-two-latency.md).
+
 ## Kubernetes variant
 
 After `sudo make install` and `kubectl apply -f deploy/lab`, run the loadgen Job in `deploy/lab/05-loadgen.yaml` once with `scx_kube` unloaded and once loaded. Keep CPU **limits** off the lab pods so CFS quota does not hide scheduler effects.

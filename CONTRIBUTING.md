@@ -10,6 +10,7 @@ Load `scx_kube` only on a VM. It replaces the CPU scheduler for the whole machin
 
 - Docs and lab wording (especially ARM, distro packages, missing `bpftool`)
 - Extra recorded `lab-local` tables (include kernel version and the counter line)
+- Run `hack/lab-two-latency.sh` and paste both servers' p99
 - Agent dry-run output that is easier to read
 - Tests for label parsing and cgroup UID matching
 - A second synthetic workload (not five new policies)
