@@ -1,0 +1,8 @@
+enq lat=25836 def=63685 bg=726  disp lat=25836 def=63681 bg=723  idle=42 kick=2081
+enq lat=27188 def=65777 bg=733  disp lat=27188 def=65772 bg=730  idle=42 kick=2198
+enq lat=28941 def=68280 bg=744  disp lat=28941 def=68275 bg=741  idle=42 kick=2332
+enq lat=30434 def=70384 bg=749  disp lat=30434 def=70378 bg=746  idle=42 kick=2475
+enq lat=32123 def=72822 bg=760  disp lat=32123 def=72817 bg=757  idle=42 kick=2629
+enq lat=32168 def=74681 bg=1419  disp lat=32168 def=74681 bg=1416  idle=154 kick=2631
+enq lat=32168 def=77356 bg=2073  disp lat=32168 def=77356 bg=2072  idle=244 kick=2631
+enq lat=32168 def=79897 bg=2744  disp lat=32168 def=79896 bg=2743  idle=324 kick=2631

@@ -1,0 +1,12 @@
+{
+  "url": "http://payment-api.kubescx-lab.svc:8080/work",
+  "duration_sec": 20,
+  "requests": 44741,
+  "errors": 0,
+  "rps": 2237.05,
+  "p50_ms": 3.388891,
+  "p95_ms": 6.042146,
+  "p99_ms": 7.539992,
+  "p999_ms": 10.37033,
+  "max_ms": 14.829032
+}

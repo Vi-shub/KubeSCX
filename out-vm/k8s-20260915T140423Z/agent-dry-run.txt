@@ -1,0 +1,8 @@
+pod kubescx-lab/batch-job-7cd75b5f6f-gn67t uid=f55ead99-3ab6-45b1-9539-525e7859f517 class=background cgroups=3
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf55ead99_3ab6_45b1_9539_525e7859f517.slice id=9602
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf55ead99_3ab6_45b1_9539_525e7859f517.slice/cri-containerd-3abe9ee70042f6a07e6abd5a09cd8a46f8db5a72000cc5f0c8769583706dd2f7.scope id=9950
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podf55ead99_3ab6_45b1_9539_525e7859f517.slice/cri-containerd-692fde27d0342ff15282d0cd701a9eb1f8d51f5231dd26df0427ef265a7c448a.scope id=9776
+pod kubescx-lab/payment-api-8d7fd4f84-jtflv uid=a786c983-9e98-41dc-a02f-7cb76d5e21c5 class=latency cgroups=3
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-poda786c983_9e98_41dc_a02f_7cb76d5e21c5.slice id=9515
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-poda786c983_9e98_41dc_a02f_7cb76d5e21c5.slice/cri-containerd-a2bc5016dff4c29802128cd072de5278dda4c5468f7e49b976adae632cc7b3be.scope id=9863
+  /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-poda786c983_9e98_41dc_a02f_7cb76d5e21c5.slice/cri-containerd-d11170e50bcaff28284f2374492f05ec1d554511dc0b662ab86b4ab502b2b7d2.scope id=9689

@@ -1,0 +1,20 @@
+pinned maps at /sys/fs/bpf/kubescx
+scx_kube loaded. Classify tasks with kubescx-agent, then Ctrl-C to unload.
+enq lat=0 def=9 bg=0  disp lat=0 def=3 bg=0  idle=2 kick=0
+enq lat=69 def=269 bg=3  disp lat=69 def=265 bg=0  idle=38 kick=2
+enq lat=2614 def=2116 bg=3  disp lat=2614 def=2114 bg=0  idle=38 kick=55
+enq lat=5239 def=3970 bg=3  disp lat=5239 def=3964 bg=0  idle=38 kick=117
+enq lat=7614 def=5818 bg=3  disp lat=7614 def=5815 bg=0  idle=38 kick=171
+enq lat=10075 def=7682 bg=3  disp lat=10075 def=7678 bg=0  idle=38 kick=243
+enq lat=12628 def=9541 bg=3  disp lat=12628 def=9536 bg=0  idle=38 kick=309
+enq lat=14998 def=11369 bg=3  disp lat=14998 def=11365 bg=0  idle=38 kick=370
+enq lat=17464 def=13212 bg=3  disp lat=17461 def=13207 bg=0  idle=38 kick=425
+enq lat=20039 def=15041 bg=3  disp lat=20039 def=15039 bg=0  idle=38 kick=482
+enq lat=22569 def=16907 bg=3  disp lat=22569 def=16904 bg=0  idle=38 kick=546
+enq lat=25043 def=18787 bg=3  disp lat=25042 def=18782 bg=0  idle=38 kick=613
+enq lat=27550 def=20634 bg=3  disp lat=27550 def=20631 bg=0  idle=38 kick=672
+enq lat=30121 def=22500 bg=3  disp lat=30120 def=22498 bg=0  idle=38 kick=722
+enq lat=32764 def=24337 bg=3  disp lat=32764 def=24332 bg=0  idle=38 kick=784
+enq lat=35496 def=26158 bg=3  disp lat=35496 def=26156 bg=0  idle=38 kick=857
+enq lat=36554 def=26907 bg=3  disp lat=36553 def=26899 bg=0  idle=39 kick=878
+enq lat=36554 def=26907 bg=3  disp lat=36553 def=26899 bg=0  idle=39 kick=878

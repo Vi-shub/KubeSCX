@@ -1,0 +1,5 @@
+enq lat=19738 def=27714 bg=235  disp lat=19738 def=27711 bg=232  idle=24 kick=978
+enq lat=20463 def=28818 bg=247  disp lat=20463 def=28816 bg=244  idle=24 kick=1019
+enq lat=21264 def=29913 bg=253  disp lat=21264 def=29910 bg=250  idle=24 kick=1058
+enq lat=22038 def=31006 bg=263  disp lat=22038 def=31003 bg=260  idle=24 kick=1100
+enq lat=22792 def=32079 bg=275  disp lat=22792 def=32076 bg=272  idle=24 kick=1131
