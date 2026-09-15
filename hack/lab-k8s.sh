@@ -14,8 +14,21 @@ if [[ "$(uname -s)" != "Linux" ]]; then
 fi
 
 if ! command -v kubectl >/dev/null 2>&1; then
-  echo "FAIL: kubectl not found. Install k3s or kubelet first."
+  if [[ -x /usr/local/bin/k3s ]]; then
+    export PATH="/usr/local/bin:${PATH}"
+  fi
+fi
+if ! command -v kubectl >/dev/null 2>&1; then
+  echo "FAIL: kubectl not found."
+  echo "On this VM, as root:"
+  echo "  curl -sfL https://get.k3s.io | sh -"
+  echo "  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml"
+  echo "Then re-run: bash hack/lab-k8s.sh"
   exit 1
+fi
+
+if [[ -f /etc/rancher/k3s/k3s.yaml ]]; then
+  export KUBECONFIG="${KUBECONFIG:-/etc/rancher/k3s/k3s.yaml}"
 fi
 
 if [[ "${EUID}" -ne 0 ]]; then
@@ -40,6 +53,7 @@ kubectl apply -f "${ROOT}/deploy/lab/02-payment-api.yaml"
 kubectl apply -f "${ROOT}/deploy/lab/03-batch-job.yaml"
 kubectl rollout status -n "${NS}" deploy/payment-api --timeout=120s
 kubectl rollout status -n "${NS}" deploy/batch-job --timeout=120s
+sleep 3
 
 run_loadgen() {
   local name="$1"

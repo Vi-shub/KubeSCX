@@ -7,11 +7,7 @@ KubeSCX is an open-source **sched_ext** scheduler plus a teaching lab. You label
 It is not a product, not a dashboard, and not a replacement for kube-scheduler.
 
 !!! success "Measured on Linux 7.0"
-    Same node, 15s, 8 clients, 800µs CPU per request vs a full-machine burner.
-
-    **p99 22.4 ms → 7.3 ms (about 68% lower). Throughput 1409 → 2388 rps.**
-
-    Two earlier policies made p99 *worse*. Those runs are documented.
+    Same node. 15s run and a 3×30s soak on Linux 7.0.0-31: **p99 ~22–24 ms → ~7 ms**, rps ~1400 → **2386**. Two latency servers shared that queue (p99 7.55 / 7.52 ms). Two earlier policies made p99 *worse*.
 
 [Run the lab](teach/03-run-the-lab.md){ .md-button .md-button--primary }
 [Read the result](blog/first-p99-result.md){ .md-button }

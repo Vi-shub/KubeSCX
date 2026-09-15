@@ -19,6 +19,17 @@ The script:
 
 Keep `out/k8s-*/`. If the agent dry-run shows `cgroups=0`, stop. The scheduler never saw the pod.
 
+## Recorded (Linux 7.0.0-31-generic, k3s)
+
+Agent printed 3 cgroup paths per pod (pod slice + cri-containerd scopes). Not zero.
+
+| scheduler | p50 | p95 | p99 | rps |
+|-----------|-----|-----|-----|-----|
+| default Linux | 6.94 ms | 146.5 ms | 325.1 ms | 266 |
+| scx_kube | 3.39 ms | 6.04 ms | 7.54 ms | 2237 |
+
+Default p99 is much worse than host `lab-local` because this path includes k3s, a Service, and a Pod burner. scx p99 landed at ~7.5 ms, same region as the host lab.
+
 ## Safety
 
 `scx_kube` is system-wide. Use a throwaway VM or a node whose only job is this lab. Ctrl-C / kill the `scx_kube` pid unloads it. Watchdog is 10s. Reboot if it wedges.
