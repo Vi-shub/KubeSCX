@@ -74,6 +74,7 @@ This is **not** the same experiment as the host `lab-local` 22 ms table. Loadgen
 |--------|----------------|-----|
 | Background allowed on idle LOCAL | Burners skipped the background queue | ~23 ms → ~699 ms |
 | `SCX_KICK_PREEMPT` on every latency enqueue | ~6.4M kicks / 15s (Go thread storm) | p95 better, p99 ~423 ms |
+| Background floor every 16th dispatch (per CPU) | Burner ran via `floor=`; two latency servers starved | ~7.5 ms → ~35–40 ms, rps ~1170 → ~295 |
 
 Full narrative: [First P99 result](blog/first-p99-result.md). Counters: [lesson 4](teach/04-read-counters.md).
 

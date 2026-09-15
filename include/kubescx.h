@@ -34,14 +34,7 @@
 #define KUBE_STAT_DISP_BACKGROUND 5
 #define KUBE_STAT_SELECT_IDLE 6
 #define KUBE_STAT_KICK 7
-#define KUBE_STAT_BG_FLOOR 8
-#define KUBE_STAT_MAX 9
-
-/* Every Nth dispatch, run one background task if that DSQ has work.
- * Stops two latency pods from fully exiling batch (lab-two-latency bg=4).
- * Still never gives background the idle LOCAL path.
- */
-#define KUBE_BG_EVERY 16
+#define KUBE_STAT_MAX 8
 
 #define KUBE_WEIGHT_LATENCY 500
 #define KUBE_WEIGHT_DEFAULT 100

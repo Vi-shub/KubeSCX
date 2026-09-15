@@ -34,13 +34,13 @@ scx_kube is a `sched_ext` policy. kubescx-agent is userspace. The kernel program
 |-------|-----|----------------|
 | latency | Labeled API / TGID | First, if runnable |
 | default | Unlabeled (sshd, kubelet, loadgen) | If latency is empty |
-| background | Labeled batch / burner | Last, plus every 16th dispatch if that queue has work |
+| background | Labeled batch / burner | Only if the first two are empty |
 
 ## What the BPF program does
 
 1. `select_cpu`: idle CPUs may take latency or default immediately. **Background must not take `SCX_DSQ_LOCAL`.** That leak was loss 1.
 2. `enqueue`: FIFO insert into the class DSQ. **No `SCX_KICK_PREEMPT` on every enqueue.** That was loss 2.
-3. `dispatch`: pull latency, then default, then background. Every 16th dispatch, if background has queued work, run one background task even when latency is busy. That is a floor, not a reserved CPU. Do not give background the idle LOCAL path.
+3. `dispatch`: pull latency, then default, then background. A 1-in-16 background floor was tried and rejected (two-latency p99 ~7.5 ms → ~35–40 ms).
 4. `tick`: if latency work is waiting and the current task is not latency, end the slice.
 
 ## What the agent does

@@ -17,7 +17,7 @@ enq lat=11376 def=15456 bg=142  disp lat=11376 def=15455 bg=139  idle=38 kick=52
 - enqueue ≈ dispatch → tasks are not disappearing
 - `kick` in the hundreds, not millions
 - some `bg` still runs → we did not fully kill the burner (good: the policy is preference, not exile)
-- `floor=` counts how often dispatch picked background on purpose while latency still had work (1 in 16). If two latency servers run and `bg` stays ~0, the floor is not firing.
+- two latency servers with `bg≈0` means batch is waiting. That is the current policy. A 1-in-16 background floor made p99 worse; do not put it back.
 
 ## Two bugs this line diagnosed
 
