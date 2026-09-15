@@ -1,5 +1,6 @@
 /bin/
 /out/
+/out-vm/
 /site/
 /scheduler/vmlinux.h
 /scheduler/scx_kube.bpf.o

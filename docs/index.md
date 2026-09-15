@@ -11,7 +11,7 @@ It is not a product, not a dashboard, and not a replacement for kube-scheduler.
 
 [Run the lab](teach/03-run-the-lab.md){ .md-button .md-button--primary }
 [Read the result](blog/first-p99-result.md){ .md-button }
-[Plan](plan.md){ .md-button }
+[k3s node](blog/k8s-node.md){ .md-button }
 
 ## The question
 
