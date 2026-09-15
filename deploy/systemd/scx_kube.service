@@ -1,0 +1,17 @@
+[Unit]
+Description=KubeSCX sched_ext CPU scheduler (dedicated node only)
+Documentation=https://github.com/Vi-shub/KubeSCX
+After=network.target
+ConditionPathExists=/sys/kernel/sched_ext
+
+[Service]
+Type=simple
+ExecStart=/opt/kubescx/scx_kube
+Restart=no
+KillMode=process
+KillSignal=SIGINT
+TimeoutStopSec=15
+# Unload restores the default scheduler. Do not Restart=always.
+
+[Install]
+WantedBy=multi-user.target

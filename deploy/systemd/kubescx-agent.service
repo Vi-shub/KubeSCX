@@ -1,0 +1,15 @@
+[Unit]
+Description=KubeSCX class agent (Pod labels to BPF maps)
+After=scx_kube.service
+Requires=scx_kube.service
+ConditionPathExists=/sys/fs/bpf/kubescx
+
+[Service]
+Type=simple
+Environment=NODE_NAME=%H
+ExecStart=/opt/kubescx/kubescx-agent --in-cluster --node-name=${NODE_NAME} --pin=/sys/fs/bpf/kubescx
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

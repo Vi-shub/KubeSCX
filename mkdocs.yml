@@ -54,6 +54,7 @@ nav:
       - First P99 result: blog/first-p99-result.md
       - Pod label on k3s: blog/k8s-node.md
   - Community: advocacy.md
+  - Dedicated node: dedicated-node.md
   - FAQ: faq.md
 
 markdown_extensions:

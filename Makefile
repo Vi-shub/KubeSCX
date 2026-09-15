@@ -24,7 +24,7 @@ BPF_CFLAGS := -g -O2 -Wall -Werror -Wno-missing-declarations \
 	-I$(ROOT)/include -I$(ROOT)/scheduler -I$(ROOT)/scheduler/include \
 	$(CLANG_BPF_SYS_INCLUDES)
 
-.PHONY: help all go scheduler lab lab-local lab-two lab-soak lab-k8s bench check test clean install images docs
+.PHONY: help all go scheduler lab lab-local lab-two lab-soak lab-k8s bench check test clean install install-node images docs
 
 help:
 	@echo "KubeSCX"
@@ -39,6 +39,7 @@ help:
 	@echo "  make bench       run loadgen against :8080"
 	@echo "  make check       verify kernel sched_ext support"
 	@echo "  make install     copy binaries to $(PREFIX)"
+	@echo "  make install-node  systemd units on this Linux box"
 
 all: go
 
@@ -101,6 +102,10 @@ install: go
 	cp -a $(BINDIR)/. $(PREFIX)/
 	@if [ -f $(SCX_BIN) ]; then cp $(SCX_BIN) $(PREFIX)/; fi
 	@echo "installed to $(PREFIX)"
+
+install-node:
+	@sed -i 's/\r$$//' "$(ROOT)/hack/"*.sh 2>/dev/null || true
+	@bash "$(ROOT)/hack/install-node.sh"
 
 docs:
 	mkdocs serve

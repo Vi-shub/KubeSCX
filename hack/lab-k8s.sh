@@ -107,7 +107,15 @@ if [[ -f "${OUTDIR}/scx.log" ]]; then
   tail -n 8 "${OUTDIR}/scx.log" | tee "${OUTDIR}/counters.txt" || true
 fi
 
+echo "==> stop lab pods so host labs are not stacked on k3s workloads"
+if [[ -f "${OUTDIR}/scx.pid" ]]; then
+  kill "$(cat "${OUTDIR}/scx.pid")" 2>/dev/null || true
+  sleep 1
+fi
+kubectl -n "${NS}" scale deploy/payment-api deploy/batch-job --replicas=0 2>/dev/null || true
+kubectl -n "${NS}" delete ds kubescx-agent --ignore-not-found 2>/dev/null || true
+
 echo
 echo "k8s lab done. results: ${OUTDIR}"
-echo "Unload: kill the scx_kube pid in ${OUTDIR}/scx.pid (or Ctrl-C if you started it by hand)."
+echo "scx_kube should be unloaded. Lab deployments scaled to 0. k3s is still installed."
 echo "This node is the experiment. Reboot it if it wedges."

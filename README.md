@@ -79,6 +79,10 @@ pip install mkdocs-material
 mkdocs serve
 ```
 
+## Dedicated node
+
+Labs are one-shot. To leave `scx_kube` running like a service on a throwaway VM: [docs/dedicated-node.md](docs/dedicated-node.md) / `bash hack/install-node.sh`. This is still not a production cluster.
+
 ## Kubernetes lab (single node)
 
 1. Linux node with `sched_ext`. k3s or kubelet.
