@@ -159,10 +159,10 @@ int main(int argc, char **argv)
 		unsigned long long st[KUBE_STAT_MAX];
 
 		read_stats(skel, st);
-		printf("enq lat=%llu def=%llu bg=%llu  disp lat=%llu def=%llu bg=%llu  idle=%llu kick=%llu\n",
+		printf("enq lat=%llu def=%llu bg=%llu  disp lat=%llu def=%llu bg=%llu  idle=%llu kick=%llu floor=%llu\n",
 		       st[KUBE_STAT_ENQ_LATENCY], st[KUBE_STAT_ENQ_DEFAULT], st[KUBE_STAT_ENQ_BACKGROUND],
 		       st[KUBE_STAT_DISP_LATENCY], st[KUBE_STAT_DISP_DEFAULT], st[KUBE_STAT_DISP_BACKGROUND],
-		       st[KUBE_STAT_SELECT_IDLE], st[KUBE_STAT_KICK]);
+		       st[KUBE_STAT_SELECT_IDLE], st[KUBE_STAT_KICK], st[KUBE_STAT_BG_FLOOR]);
 		fflush(stdout);
 		sleep(1);
 	}

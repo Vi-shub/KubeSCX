@@ -13,6 +13,8 @@ The agent printed three cgroup paths per pod (systemd slice + cri-containerd sco
 | default Linux | 6.94 ms | 146.5 ms | 325.1 ms | 266 |
 | scx_kube | 3.39 ms | 6.04 ms | 7.54 ms | 2237 |
 
+Second pass, same node: default p99 274 ms / 248 rps, scx p99 7.40 ms / 2253 rps.
+
 During the job: `enq lat` matched `disp lat`, kick ~2600, background still ran. After the loadgen Job exited, latency counts froze and `bg` kept climbing (k3s + burner). Expected.
 
 This is not the 22 ms host table. Loadgen goes through a Service. k3s is on the node. Default p99 is ugly because the box is messier. scx still put the API at ~7.5 ms, same region as `lab-local`. Do not say Kubernetes is 97% faster.

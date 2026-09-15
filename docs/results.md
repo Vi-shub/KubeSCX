@@ -53,8 +53,10 @@ scx-a and scx-b matched. They shared the latency FIFO. They did not each get a r
 
 | scheduler | p50 | p95 | p99 | p99.9 | rps |
 |-----------|-----|-----|-----|-------|-----|
-| default Linux | 6.94 ms | 146.5 ms | **325.1 ms** | 630 ms | 266 |
-| scx_kube | 3.39 ms | 6.04 ms | **7.54 ms** | 10.37 ms | **2237** |
+| default Linux (run 1) | 6.94 ms | 146.5 ms | **325.1 ms** | 630 ms | 266 |
+| scx_kube (run 1) | 3.39 ms | 6.04 ms | **7.54 ms** | 10.37 ms | **2237** |
+| default Linux (run 2) | 9.95 ms | 153.5 ms | **274.1 ms** | 483 ms | 248 |
+| scx_kube (run 2) | 3.39 ms | 6.03 ms | **7.40 ms** | 10.22 ms | **2253** |
 
 Agent mapped payment-api as latency and batch-job as background. During the job:
 

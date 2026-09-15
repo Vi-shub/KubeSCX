@@ -3,9 +3,10 @@
  * scx_kube — Kubernetes-aware sched_ext scheduler (MVP)
  *
  * Policy: three FIFO dispatch queues.
- *   latency  -> always first
- *   default  -> unlabeled tasks (sshd, loadgen, kubelet)
- *   background -> only if the first two are empty
+ *   latency  -> first
+ *   default  -> unlabeled (sshd, loadgen, kubelet)
+ *   background -> last, plus a 1/KUBE_BG_EVERY floor so batch
+ *                 still runs when latency never goes idle
  *
  * Classification comes from userspace BPF maps (TGID / cgroup id).
  *
@@ -36,10 +37,28 @@ struct {
 
 struct {
 	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+	__uint(max_entries, 1);
+	__type(key, u32);
+	__type(value, u64);
+} disp_seq SEC(".maps");
+
+struct {
+	__uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
 	__uint(max_entries, KUBE_STAT_MAX);
 	__type(key, u32);
 	__type(value, u64);
 } stats SEC(".maps");
+
+static __always_inline u64 next_disp_seq(void)
+{
+	u32 k = 0;
+	u64 *v = bpf_map_lookup_elem(&disp_seq, &k);
+
+	if (!v)
+		return 1;
+	*v += 1;
+	return *v;
+}
 
 static __always_inline void stat_inc(u32 idx)
 {
@@ -165,8 +184,22 @@ void BPF_STRUCT_OPS(kube_tick, struct task_struct *p)
 
 void BPF_STRUCT_OPS(kube_dispatch, s32 cpu, struct task_struct *prev)
 {
+	u64 n;
+
 	(void)cpu;
 	(void)prev;
+
+	n = next_disp_seq();
+	if (KUBE_BG_EVERY && (n % KUBE_BG_EVERY) == 0 &&
+	    bpf_ksym_exists(scx_bpf_dsq_nr_queued) &&
+	    scx_bpf_dsq_nr_queued(KUBE_DSQ_BACKGROUND) > 0) {
+		if (kube_dsq_move_to_local(KUBE_DSQ_BACKGROUND)) {
+			stat_inc(KUBE_STAT_DISP_BACKGROUND);
+			stat_inc(KUBE_STAT_BG_FLOOR);
+			return;
+		}
+	}
+
 	if (kube_dsq_move_to_local(KUBE_DSQ_LATENCY)) {
 		stat_inc(KUBE_STAT_DISP_LATENCY);
 		return;

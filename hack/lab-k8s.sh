@@ -43,6 +43,14 @@ uname -a | tee "${OUTDIR}/uname.txt"
 if [[ ! -x "${ROOT}/bin/latency-server" || ! -x "${ROOT}/bin/scx_kube" ]]; then
   make -C "${ROOT}" go scheduler
 fi
+
+# HostPath binaries cannot be overwritten while pods are running them.
+if command -v kubectl >/dev/null 2>&1; then
+  kubectl -n "${NS}" scale deploy/payment-api deploy/batch-job --replicas=0 2>/dev/null || true
+  kubectl -n "${NS}" delete ds kubescx-agent --ignore-not-found 2>/dev/null || true
+  kubectl -n "${NS}" delete job loadgen --ignore-not-found 2>/dev/null || true
+  sleep 3
+fi
 make -C "${ROOT}" install
 echo "binaries in /opt/kubescx" | tee -a "${OUTDIR}/meta.txt"
 
